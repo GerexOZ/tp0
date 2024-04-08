@@ -10,9 +10,17 @@
 
 #include "utils.h"
 
+typedef enum {
+    BOOL,
+    STRING,
+    INT,
+    LONG,
+    DOUBLE
+} tipoValor;
 
 t_log* iniciar_logger(char* nombreDelArchivo, char* nombreDelProceso, bool estaLaConsolaActiva, t_log_level nivel);
-t_config* iniciar_config(void);
+t_config* iniciar_config(char *direccion);
+void leer_config(tipoValor valor, t_config* archivo, char* propiedad);
 void leer_consola(t_log*);
 void paquete(int);
 void terminar_programa(int, t_log*, t_config*);
