@@ -11,10 +11,10 @@
 #include "utils.h"
 
 
-t_log* iniciar_logger(void);
+t_log* iniciar_logger(char* nombreDelArchivo, char* nombreDelProceso, bool estaLaConsolaActiva, t_log_level nivel);
 t_config* iniciar_config(void);
 void leer_consola(t_log*);
 void paquete(int);
 void terminar_programa(int, t_log*, t_config*);
-
+void escribir_log(t_log* log, t_log_level level, char* mensaje);
 #endif /* CLIENT_H_ */

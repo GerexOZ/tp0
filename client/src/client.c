@@ -14,10 +14,10 @@ int main(void)
 
 	/* ---------------- LOGGING ---------------- */
 
-	logger = iniciar_logger();
+	logger = iniciar_logger("tp0.log","CLIENTE",1,LOG_LEVEL_INFO);
 	// Usando el logger creado previamente
 	// Escribi: "Hola! Soy un log"
-	log_info(logger, "Hola! Soy un log.");
+	escribir_log(logger, logger->detail, "Hola soy un log");
 
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
 
@@ -50,10 +50,34 @@ int main(void)
 	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
 	// Proximamente
 }
+//otra solcuion seria obtener un puntero de log (log->t_log_level) en el switch sacando el parametro del medio
+void escribir_log(t_log* log, t_log_level level, char* mensaje){
+	switch (level)
+	{
+	case LOG_LEVEL_INFO:
+		log_info(log, mensaje);
+		break;
+	case LOG_LEVEL_DEBUG:
+		log_debug(log, mensaje);
+		break;
+	case LOG_LEVEL_ERROR:
+		log_error(log, mensaje);
+		break;
+	case LOG_LEVEL_TRACE:
+		log_trace(log, mensaje);
+		break;
+	case LOG_LEVEL_WARNING:
+		log_warning(log, mensaje);
+		break;
+	default:
+		printf("Pusiste un tipo de log incorrecto!");
+		break;
+	}
+}
 
-t_log* iniciar_logger(void)
+t_log* iniciar_logger(char* nombreDelArchivo, char* nombreDelProceso, bool estaLaConsolaActiva, t_log_level nivel)
 {
-	t_log* nuevo_logger = log_create("tp.log","CLIENTE",1,LOG_LEVEL_INFO);
+	t_log* nuevo_logger = log_create(nombreDelArchivo,nombreDelProceso,estaLaConsolaActiva,nivel);
 
 	return nuevo_logger;
 }
@@ -96,5 +120,5 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 {
 	/* Y por ultimo, hay que liberar lo que utilizamos (conexion, log y config) 
 	  con las funciones de las commons y del TP mencionadas en el enunciado */
-	log_destroy(config);
+	log_destroy(logger);
 }
